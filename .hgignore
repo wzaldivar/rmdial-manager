@@ -1,0 +1,3 @@
+relre:^.*\.pyc$
+relre:^remote_ppp_switcher/.*$
+relre:^remote_ppp_switcherd/.*$
