@@ -23,11 +23,12 @@ import os.path
 import sys
 
 data = {
-        'ip'   : '192.168.0.1',
-        'port' : 1551,
-        'cxn'  : 'MyISP',
-        'user' : 'MyUserName',
-        'pass' : 'MyPassword'
+        'ip'    : '192.168.0.1',
+        'port'  : 1551,
+        'cxn'   : 'MyISP',
+        'user'  : 'MyUserName',
+        'pass'  : 'MyPassword',
+        'allow' : '127.0.0.1, 192.168.0.0/255'
         }
 
 config_path = os.path.join( os.path.dirname( os.path.abspath( sys.argv[0] ) ),
@@ -41,4 +42,5 @@ def read():
     data['cxn'] = parser.get('data', 'cxn')
     data['user'] = parser.get('data', 'user')
     data['pass'] = parser.get('data', 'pass')
+    data['allow'] = parser.get('data', 'allow')
 
