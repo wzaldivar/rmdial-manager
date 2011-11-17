@@ -21,20 +21,34 @@
 import SocketServer
 import subprocess
 import config
+import netaddr
 
 class PPPSwitchHandler(SocketServer.BaseRequestHandler):
     def handle(self):
-        self.data = self.request.recv(1024).strip()
-        if self.data == 'on':
-            subprocess.Popen( [ 'rasdial',
-                                config.data['cxn'],
-                                config.data['user'],
-                                config.data['pass'] ],
-                              stdout=subprocess.PIPE,
-                              stderr=subprocess.STDOUT )
-        elif self.data == 'off':
-            subprocess.Popen( [ 'rasdial',
-                                config.data['cxn'],
-                                '/DISCONNECT' ],
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.STDOUT )
+        client_ip = netaddr.IPAddress(self.client_address[0])
+        
+        ip_ranges = config.data['allow'].split(',')
+        
+        allowed = False
+        
+        for ip_range in ip_ranges:
+            try:
+                allowed = client_ip in netaddr.IPNetwork( ip_range.strip() )
+            except:
+                pass
+            
+        if allowed:
+            self.data = self.request.recv(1024).strip()
+            startupinfo = subprocess.STARTUPINFO()
+            startupinfo.dwFlags |= subprocess._subprocess.STARTF_USESHOWWINDOW
+            if self.data == 'on':
+                subprocess.Popen( [ 'rasdial',
+                                    config.data['cxn'],
+                                    config.data['user'],
+                                    config.data['pass'] ],
+                                  startupinfo=startupinfo )
+            elif self.data == 'off':
+                subprocess.Popen( [ 'rasdial',
+                                    config.data['cxn'],
+                                    '/DISCONNECT' ],
+                                 startupinfo=startupinfo )

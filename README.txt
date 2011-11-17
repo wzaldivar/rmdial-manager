@@ -19,6 +19,7 @@ port = port to listen on, default 1551
 cxn = dialup connection name
 user = dialup connection user
 pass = dialup connection password
+allow = colon separated allowed ip ranges/ip
 
 Client
 ======
@@ -35,3 +36,10 @@ values
 
 ip = server IP, default 192.168.0.1
 port = server port, default 1551
+
+No standard python libraries
+============================
+
+netaddr
+Desc: A network address manipulation library for Python
+ URL: https://github.com/drkjam/netaddr
