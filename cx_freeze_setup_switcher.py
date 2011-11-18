@@ -22,7 +22,7 @@ from cx_Freeze import setup, Executable
 
 setup(
         name = "remote_ppp_switcher",
-        version = "0.1",
+        version = "0.2",
         description = "remote ppp switcher client",
         executables = [Executable('remote_ppp_switcher.py')])
 
