@@ -20,16 +20,64 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import client.client
 import sys
+import socket
+import ConfigParser
+import os.path
 
-def send(data):
-    client.client.send(data)
+class client:
+    """
+    Remote ppp switcher client class
+    """
+
+    __config_data = {
+                     'ip'   : '192.168.0.1',
+                     'port' : 1551
+                     }
+
+
+    def __init__(self, file_path=None, command=None):
+        self.config(file_path)
+
+        if command:
+            self.do(command)
+
+
+    def config(self, file_path=None):
+        """
+        Read configuration file
+        """
+
+        if not file_path:
+            file_path = os.path.join( os.path.dirname(__file__),
+                                      'remote_ppp_switcher.cfg' )
+
+        my_parser = ConfigParser.ConfigParser(self.__config_data)
+        my_parser.read( [file_path] )
+
+        self.__config_data['ip'] = my_parser.get('data', 'ip')
+        self.__config_data['port'] = my_parser.getint('data', 'port')
+
+
+    def do(self, command):
+        """
+        Send command to the server
+        """
+
+        command_data = {
+                        'start' : 'on',
+                        'stop'  : 'off'
+                        }
+
+        if command in command_data.keys():
+            server_address = ( self.__config_data['ip'],
+                               self.__config_data['port'] )
+            my_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            my_socket.connect(server_address)
+            my_socket.send(command_data[command])
+            my_socket.close()
+
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
-        if sys.argv[1] == 'start':
-            send('on')
-        elif sys.argv[1] == 'stop':
-            send('off')
-
+        client( command=sys.argv[1] )
