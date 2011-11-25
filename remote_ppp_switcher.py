@@ -49,7 +49,7 @@ class client:
         """
 
         if not file_path:
-            file_path = os.path.join( os.path.dirname(__file__),
+            file_path = os.path.join( os.path.dirname(sys.argv[0]),
                                       'remote_ppp_switcher.cfg' )
 
         my_parser = ConfigParser.ConfigParser(self.__config_data)
