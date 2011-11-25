@@ -28,7 +28,7 @@ data = {
         'cxn'   : 'MyISP',
         'user'  : 'MyUserName',
         'pass'  : 'MyPassword',
-        'allow' : '127.0.0.1, 192.168.0.0/255'
+        'allow' : '127.0.0.1, 192.168.0.0/24'
         }
 
 config_path = os.path.join( os.path.dirname( os.path.abspath( sys.argv[0] ) ),
