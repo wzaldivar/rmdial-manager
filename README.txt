@@ -1,3 +1,7 @@
+Why rmdial-manager? 
+original problem described on debian-user-spanish
+https://debian-user-spanish.debian.narkive.com/Jn58SuD4/se-puede-controlar-una-conexion-compartida-de-winxp-desde-debian
+
 Server
 ======
 
